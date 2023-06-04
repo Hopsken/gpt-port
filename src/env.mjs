@@ -38,7 +38,9 @@ const server = z.object({
   DISCORD_CLIENT_SECRET: z.string().min(1).optional(),
 })
 
-const client = z.object({})
+const client = z.object({
+  NEXT_PUBLIC_HOST: z.string().url().optional(),
+})
 
 /**
  * You can't destruct `process.env` as a regular object in the Next.js edge runtimes (e.g.
@@ -49,7 +51,7 @@ const client = z.object({})
 const processEnv = {
   NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
   NEXTAUTH_URL: process.env.NEXTAUTH_URL,
-
+  NEXT_PUBLIC_HOST: process.env.NEXT_PUBLIC_HOST,
   ADMIN_EMAIL: process.env.ADMIN_EMAIL,
 
   UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN,

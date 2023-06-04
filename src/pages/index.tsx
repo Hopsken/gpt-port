@@ -1,6 +1,3 @@
-import useSWR from 'swr'
+import Home from '@/components/Home'
 
-export default function Home() {
-  useSWR('/api/models', url => fetch(url).then(res => res.json()))
-  return <button className='btn'>Test</button>
-}
+export default Home

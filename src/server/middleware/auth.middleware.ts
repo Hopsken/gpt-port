@@ -10,14 +10,14 @@ const createAuthMiddleware = (
   return async (c, next) => {
     // @ts-expect-error getToken req type is a bit too restricted
     const token = await getToken({ req: c.req.raw })
-    console.log('file: auth.middleware.ts:13  return  token:', token)
     if (
       !token ||
       !token.email ||
-      (role === 'admin' && token.email !== env.ADMIN_EMAIL)
+      (role === 'admin' && token.role !== 'admin')
     ) {
       throw new HTTPException(401, { message: 'unauthorized' })
     }
+    c.set('user', token)
     await next()
   }
 }

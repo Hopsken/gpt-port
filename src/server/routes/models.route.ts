@@ -9,11 +9,11 @@ const handler = createHandler()
 
 handler
   .use('*', withAdminOnly)
-  .get('/', c => {
+  .get('/', async c => {
     const redis = c.env.redis
     const modelController = new ModelController(redis)
 
-    const models = modelController.getModels()
+    const models = await modelController.getModels()
     return c.json(models)
   })
   .post('/', zValidator('json', modelProviderSchema), async c => {

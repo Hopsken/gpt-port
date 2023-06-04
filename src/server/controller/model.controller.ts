@@ -10,8 +10,9 @@ export class ModelController {
     //
   }
 
-  getModels() {
-    return this.redis.hgetall<StoredModels>(this.storageKey)
+  async getModels() {
+    const models = await this.redis.hgetall<StoredModels>(this.storageKey)
+    return models || {}
   }
 
   deleteModel(id: string) {

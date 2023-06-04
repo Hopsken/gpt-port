@@ -32,6 +32,8 @@ declare global {
     expire: string
     label: string
   }
+
+  export type UserRole = 'user' | 'admin'
 }
 
 export {}
