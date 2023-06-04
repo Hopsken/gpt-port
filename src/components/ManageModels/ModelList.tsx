@@ -17,6 +17,7 @@ export default function ModelsTable(props: Props) {
       <tr key={id}>
         <td>{data.model}</td>
         <td style={{ textTransform: 'capitalize' }}>{data.type}</td>
+        <td>{data.apiKey}</td>
         <td>
           <ActionIcon onClick={() => props.onDelete(id)}>
             <HiOutlineTrash />
@@ -46,6 +47,7 @@ export default function ModelsTable(props: Props) {
         <tr>
           <th>Model</th>
           <th>Provider</th>
+          <th>Provider Key</th>
           <th></th>
         </tr>
       </thead>
