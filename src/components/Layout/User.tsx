@@ -14,7 +14,6 @@ import { useSession } from 'next-auth/react'
 export function User() {
   const theme = useMantineTheme()
   const { data } = useSession({ required: true })
-  console.log('file: User.tsx:17  User  data:', data)
 
   return (
     <Box

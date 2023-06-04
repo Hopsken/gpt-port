@@ -1,4 +1,16 @@
-export { default } from 'next-auth/middleware'
+import { withAuth } from 'next-auth/middleware'
+
+export default withAuth({
+  callbacks: {
+    authorized: ({ token, req }) => {
+      const url = new URL(req.url)
+      if (url.pathname.startsWith('/admin')) {
+        return token?.role === 'admin'
+      }
+      return !!token
+    },
+  },
+})
 
 export const config = {
   matcher: [

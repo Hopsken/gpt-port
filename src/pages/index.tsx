@@ -1,3 +1,10 @@
-import Home from '@/components/Home'
+import Layout from '@/components/Layout/Layout'
+import MyTokens from '@/components/MyTokens'
 
-export default Home
+export default function MyTokensPage() {
+  return (
+    <Layout>
+      <MyTokens />
+    </Layout>
+  )
+}

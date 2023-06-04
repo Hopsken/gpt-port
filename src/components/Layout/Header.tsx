@@ -3,12 +3,10 @@ import {
   MediaQuery,
   Burger,
   Header,
-  Text,
   useMantineTheme,
   Title,
   Group,
   Anchor,
-  rem,
   Box,
 } from '@mantine/core'
 
@@ -35,11 +33,11 @@ export default function AppHeader(props: {
         </MediaQuery>
 
         <Title order={2} size={'h4'}>
-          KeyPortal
+          GPTPort
         </Title>
 
         <Anchor
-          href='https://github.com/hopsken/key-portal'
+          href='https://github.com/hopsken/gpt-port'
           target='_blank'
           color='dark'
         >

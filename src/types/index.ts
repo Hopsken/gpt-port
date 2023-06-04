@@ -4,7 +4,7 @@ export const openAiProviderSchema = z.object({
   type: z.literal('openai'),
   model: z.string(),
   apiKey: z.string(),
-  endpoint: z.string().optional(),
+  endpoint: z.string().url().optional(),
 })
 export const azureProviderSchema = z.object({
   type: z.literal('azure'),
