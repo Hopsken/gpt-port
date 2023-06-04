@@ -16,6 +16,21 @@ const server = z.object({
     // VERCEL_URL doesn't include `https` so it cant be validated as a URL
     process.env.VERCEL ? z.string().min(1) : z.string().url()
   ),
+
+  ADMIN_EMAIL: z.string().email(),
+
+  UPSTASH_REDIS_REST_TOKEN: z.string().min(1),
+  UPSTASH_REDIS_REST_URL: z.string().min(1),
+
+  // These are optional because they are only used if you're using a third-party OAuth provider.
+  // If you're using a third-party OAuth provider, you'll need to set these env vars.
+  // See https://next-auth.js.org/configuration/providers for more information.
+
+  // Example:
+  // GOOGLE_CLIENT_ID=my-google-client-id
+  // GOOGLE_CLIENT_SECRET=my-google-client-secret
+
+  // Auth Providers
   GOOGLE_CLIENT_ID: z.string().min(1).optional(),
   GOOGLE_CLIENT_SECRET: z.string().min(1).optional(),
 
@@ -34,6 +49,11 @@ const client = z.object({})
 const processEnv = {
   NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
   NEXTAUTH_URL: process.env.NEXTAUTH_URL,
+
+  ADMIN_EMAIL: process.env.ADMIN_EMAIL,
+
+  UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN,
+  UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL,
 
   GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,

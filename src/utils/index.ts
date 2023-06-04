@@ -1,3 +1,2 @@
-export function isNonNullable<T>(val: T): val is NonNullable<T> {
-  return Boolean(val)
-}
+export * from './isNonNullable'
+export * from './singleton'
