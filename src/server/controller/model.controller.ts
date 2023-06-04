@@ -1,5 +1,6 @@
 import { nanoid } from 'nanoid'
 import type { Redis } from '@upstash/redis'
+import { blurToken } from '../utils'
 
 type StoredModels = Record<string, ModelProvider>
 
@@ -12,6 +13,14 @@ export class ModelController {
 
   async getModels() {
     const models = await this.redis.hgetall<StoredModels>(this.storageKey)
+    if (!models) return {}
+
+    for (const key of Object.keys(models)) {
+      models[key] = {
+        ...models[key],
+        apiKey: blurToken(models[key].apiKey),
+      }
+    }
     return models || {}
   }
 

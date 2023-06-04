@@ -1,11 +1,11 @@
 import { customAlphabet } from 'nanoid'
 import type { Redis } from '@upstash/redis'
 import { sha256 } from '@/utils/sha256'
+import { blurToken } from '../utils'
 
 const nanoid = customAlphabet('6789BCDFGHJKLMNPQRTWbcdfghjkmnpqrtwz', 48)
 
 const generateToken = () => `sk-` + nanoid()
-const blurToken = (s: string) => s.slice(0, 4) + '****' + s.slice(-4)
 
 type StoredTokens = Record<string, ApiToken>
 
