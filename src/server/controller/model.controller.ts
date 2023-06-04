@@ -11,6 +11,17 @@ export class ModelController {
     //
   }
 
+  async findProviderByModel(model: string) {
+    const providers = await this.redis.hgetall<StoredModels>(this.storageKey)
+    if (!providers) return
+
+    for (const provider of Object.values(providers)) {
+      if (provider.model === model) {
+        return provider
+      }
+    }
+  }
+
   async getModels() {
     const models = await this.redis.hgetall<StoredModels>(this.storageKey)
     if (!models) return {}

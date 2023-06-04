@@ -18,13 +18,28 @@ export class TokenController {
     //
   }
 
+  static async getTokenByHash(redis: Redis, hash: string) {
+    const userId = await redis.get<string>(`key:${hash}:user`)
+    if (!userId) return null
+
+    const controller = new TokenController(redis, userId)
+    return controller.getToken(hash)
+  }
+
+  async getToken(hash: string) {
+    return this.redis.hget<ApiToken>(this.storageKey, hash)
+  }
+
   async getTokens() {
     const result = await this.redis.hgetall<StoredTokens>(this.storageKey)
     return result || {}
   }
 
   deleteToken(hash: string) {
-    return this.redis.hdel(this.storageKey, hash)
+    return Promise.all([
+      this.redis.hdel(this.storageKey, hash),
+      this.redis.del(`key:${hash}:user`),
+    ])
   }
 
   async addToken(label: string, expire: string): Promise<{ token: string }> {
@@ -32,9 +47,12 @@ export class TokenController {
     const hash = await sha256(token)
     const data: ApiToken = { token: blurToken(token), label, expire }
 
-    await this.redis.hset<ApiToken>(this.storageKey, {
-      [hash]: data,
-    })
+    await Promise.all([
+      this.redis.set(`key:${hash}:user`, this.userId),
+      this.redis.hset<ApiToken>(this.storageKey, {
+        [hash]: data,
+      }),
+    ])
 
     return { token }
   }
