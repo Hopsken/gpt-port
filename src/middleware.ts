@@ -1,14 +1,26 @@
-import { withAuth } from 'next-auth/middleware'
+import { authMiddleware } from '@clerk/nextjs'
+import { env } from './env.mjs'
+import { NextResponse } from 'next/server'
 
-export default withAuth({
-  callbacks: {
-    authorized: ({ token, req }) => {
-      const url = new URL(req.url)
-      if (url.pathname.startsWith('/admin')) {
-        return token?.role === 'admin'
-      }
-      return !!token
-    },
+export default authMiddleware({
+  publicRoutes: ['/'],
+  afterAuth(auth, req) {
+    // handle users who aren't authenticated
+    const signInUrl = new URL('/sign-in', req.url)
+    signInUrl.searchParams.set('redirect_url', req.url)
+
+    if (!auth.userId && !auth.isPublicRoute) {
+      return NextResponse.redirect(signInUrl)
+    }
+
+    // handle admin user auth
+    const isAdmin = auth.user?.emailAddresses.find(
+      e => e.emailAddress === env.ADMIN_EMAIL
+    )
+    const url = new URL(req.url)
+    if (url.pathname.startsWith('/admin') && !isAdmin) {
+      return NextResponse.redirect(signInUrl)
+    }
   },
 })
 
