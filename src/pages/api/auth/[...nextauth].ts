@@ -6,6 +6,7 @@ import { Provider } from 'next-auth/providers'
 import { DefaultJWT } from 'next-auth/jwt'
 import { UpstashRedisAdapter } from '@next-auth/upstash-redis-adapter'
 import { createRedisClient } from '@/server/db'
+import { isEmailAllowed } from '@/server/helper/allowlist'
 
 const redis = createRedisClient()
 
@@ -65,6 +66,10 @@ const authOptions: NextAuthOptions = {
   adapter: UpstashRedisAdapter(redis),
 
   callbacks: {
+    signIn({ user }) {
+      if (!user.email) return false
+      return isEmailAllowed(user.email)
+    },
     jwt({ token, user }) {
       if (user) {
         token.id = user.id

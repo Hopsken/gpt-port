@@ -2,7 +2,7 @@ import { modelProviderSchema } from '@/types'
 import { zValidator } from '@hono/zod-validator'
 import { z } from 'zod'
 import { ModelController } from '../controller/model.controller'
-import { createHandler } from '../helper'
+import { createHandler } from '../helper/createHandler'
 import { withAdminOnly } from '../middleware/auth.middleware'
 
 const handler = createHandler()

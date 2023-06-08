@@ -1,6 +1,6 @@
 import { HTTPException } from 'hono/http-exception'
 import { logger } from 'hono/logger'
-import { createHandler } from './helper'
+import { createHandler } from './helper/createHandler'
 import { routes } from './routes'
 
 export const initApp = (basePath = '/') => {

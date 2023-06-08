@@ -1,6 +1,6 @@
 import { zValidator } from '@hono/zod-validator'
 import { TokenController } from '../controller/token.controller'
-import { createHandler } from '../helper'
+import { createHandler } from '../helper/createHandler'
 import { withAuth } from '../middleware/auth.middleware'
 import { z } from 'zod'
 

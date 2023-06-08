@@ -2,7 +2,7 @@ import { zValidator } from '@hono/zod-validator'
 import { HTTPException } from 'hono/http-exception'
 import { z } from 'zod'
 import { ModelController } from '../controller/model.controller'
-import { createHandler } from '../helper'
+import { createHandler } from '../helper/createHandler'
 import { proxyCompletions } from '../middleware/openai-proxy.middleware'
 import { validateAPIToken } from '../middleware/validate-token.middleware'
 

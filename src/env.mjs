@@ -1,4 +1,6 @@
 import { z } from 'zod'
+import isFQDN from 'validator/lib/isFQDN.js'
+import isEmail from 'validator/lib/isEmail.js'
 
 /**
  * Specify your server-side environment variables schema here. This way you can ensure the app isn't
@@ -18,6 +20,20 @@ const server = z.object({
   ),
 
   ADMIN_EMAIL: z.string().email(),
+  ALLOW_LIST: z.preprocess(
+    str => {
+      if (!str) return []
+      const res = str.split(',').map(s => s.trim().toLowerCase())
+      console.log('file: env.mjs:25  res:', res)
+      return res
+    },
+    z.array(
+      // by email
+      z.string().refine(val => val === '*' || isEmail(val) || isFQDN(val), {
+        message: 'must be * or email or domain',
+      })
+    )
+  ),
 
   UPSTASH_REDIS_REST_TOKEN: z.string().min(1),
   UPSTASH_REDIS_REST_URL: z.string().min(1),
@@ -53,6 +69,7 @@ const processEnv = {
   NEXTAUTH_URL: process.env.NEXTAUTH_URL,
   NEXT_PUBLIC_HOST: process.env.NEXT_PUBLIC_HOST,
   ADMIN_EMAIL: process.env.ADMIN_EMAIL,
+  ALLOW_LIST: process.env.ALLOW_LIST,
 
   UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN,
   UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL,
