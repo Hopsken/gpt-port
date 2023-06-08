@@ -23,6 +23,7 @@ const App: AppType<{ session: Session | null }> = ({
           name='viewport'
           content='minimum-scale=1, initial-scale=1, width=device-width'
         />
+        <link rel='icon' href='/favicon.svg' />
       </Head>
       <SessionProvider session={session}>
         <MantineProvider withGlobalStyles withNormalizeCSS>
