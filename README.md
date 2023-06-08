@@ -6,7 +6,7 @@ Safely manage and share your OpenAI / Azure API keys.
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 
-
+![App Screenshot](https://raw.githubusercontent.com/Hopsken/gpt-port/main/screenshots/screenshot-1.png)
 
 ## Features
 
