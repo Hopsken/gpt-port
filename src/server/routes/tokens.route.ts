@@ -12,7 +12,7 @@ handler
     const redis = c.env.redis
     const user = c.get('user')!
 
-    const tokenController = new TokenController(redis, user.email!)
+    const tokenController = new TokenController(redis, user.id)
     const tokens = await tokenController.getTokens()
     return c.json(tokens)
   })
@@ -29,7 +29,7 @@ handler
       const redis = c.env.redis
       const user = c.get('user')!
 
-      const tokenController = new TokenController(redis, user.email!)
+      const tokenController = new TokenController(redis, user.id)
       const data = c.req.valid('json')
 
       const token = await tokenController.addToken(
@@ -46,7 +46,7 @@ handler
       const redis = c.env.redis
       const user = c.get('user')!
 
-      const tokenController = new TokenController(redis, user.email!)
+      const tokenController = new TokenController(redis, user.id)
       const id = c.req.valid('param').id
 
       await tokenController.deleteToken(id)

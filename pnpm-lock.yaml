@@ -25,6 +25,9 @@ dependencies:
   '@mantine/next':
     specifier: ^6.0.13
     version: 6.0.13(@emotion/react@11.11.0)(@emotion/server@11.11.0)(next@13.4.1)(react-dom@18.2.0)(react@18.2.0)
+  '@next-auth/upstash-redis-adapter':
+    specifier: ^3.0.4
+    version: 3.0.4(@upstash/redis@1.21.0)(next-auth@4.22.1)
   '@types/node':
     specifier: 20.2.5
     version: 20.2.5
@@ -463,6 +466,17 @@ packages:
       react: '>=16.8.0'
     dependencies:
       react: 18.2.0
+    dev: false
+
+  /@next-auth/upstash-redis-adapter@3.0.4(@upstash/redis@1.21.0)(next-auth@4.22.1):
+    resolution: {integrity: sha512-az9hFemtnSry7YAaVvxPEwGZSbnK8xiRLX/C5bDsM1ibQWSx6aIp7QY3Kk4NSdqU6LONkXnjndKKhrUnwEmfFw==}
+    peerDependencies:
+      '@upstash/redis': ^1.0.1
+      next-auth: ^4
+    dependencies:
+      '@upstash/redis': 1.21.0
+      next-auth: 4.22.1(next@13.4.1)(react-dom@18.2.0)(react@18.2.0)
+      uuid: 8.3.2
     dev: false
 
   /@next/env@13.4.1:

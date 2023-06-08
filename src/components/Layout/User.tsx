@@ -10,8 +10,10 @@ import {
   rem,
 } from '@mantine/core'
 import { useSession } from 'next-auth/react'
+import Link from 'next/link'
 
-export function User() {
+export function User(props: { variant: 'nav' | 'button' }) {
+  const { variant } = props
   const theme = useMantineTheme()
   const { data } = useSession({ required: true })
 
@@ -19,12 +21,15 @@ export function User() {
     <Box
       sx={{
         paddingTop: theme.spacing.sm,
+        textDecoration: 'none',
         borderTop: `${rem(1)} solid ${
           theme.colorScheme === 'dark'
             ? theme.colors.dark[4]
             : theme.colors.gray[2]
         }`,
       }}
+      component={Link}
+      href={'/profile'}
     >
       <UnstyledButton
         sx={{
@@ -56,7 +61,7 @@ export function User() {
             </Text>
           </Box>
 
-          <HiChevronRight size={rem(18)} />
+          {variant === 'nav' ? <HiChevronRight size={rem(18)} /> : null}
         </Group>
       </UnstyledButton>
     </Box>

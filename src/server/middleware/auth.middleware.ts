@@ -1,4 +1,3 @@
-import { env } from '@/env.mjs'
 import { MiddlewareHandler } from 'hono'
 import { HTTPException } from 'hono/http-exception'
 import { getToken } from 'next-auth/jwt'

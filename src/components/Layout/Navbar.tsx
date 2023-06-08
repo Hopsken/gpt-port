@@ -8,13 +8,13 @@ export default function AppNavbar(props: { opened: boolean }) {
       p='md'
       hiddenBreakpoint='sm'
       hidden={!props.opened}
-      width={{ sm: 200, lg: 300 }}
+      width={{ sm: 250, lg: 300 }}
     >
       <Navbar.Section grow mt='md'>
         <MainLinks />
       </Navbar.Section>
       <Navbar.Section>
-        <User />
+        <User variant='nav' />
       </Navbar.Section>
     </Navbar>
   )

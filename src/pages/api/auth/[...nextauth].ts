@@ -4,6 +4,10 @@ import DiscordProvider from 'next-auth/providers/discord'
 import { env } from '@/env.mjs'
 import { Provider } from 'next-auth/providers'
 import { DefaultJWT } from 'next-auth/jwt'
+import { UpstashRedisAdapter } from '@next-auth/upstash-redis-adapter'
+import { createRedisClient } from '@/server/db'
+
+const redis = createRedisClient()
 
 function getProviders(): Provider[] {
   const providers: Provider[] = []
@@ -32,6 +36,7 @@ function getProviders(): Provider[] {
 declare module 'next-auth' {
   interface Session extends DefaultSession {
     user: {
+      id: string
       role: UserRole
     } & DefaultSession['user']
   }
@@ -39,6 +44,7 @@ declare module 'next-auth' {
 
 declare module 'next-auth/jwt' {
   interface JWT extends DefaultJWT {
+    id: string
     role: UserRole
   }
 }
@@ -56,15 +62,19 @@ const authOptions: NextAuthOptions = {
     maxAge: 7 * 24 * 60 * 60, // 7 days
   },
 
+  adapter: UpstashRedisAdapter(redis),
+
   callbacks: {
     jwt({ token, user }) {
       if (user) {
+        token.id = user.id
         token.role = isAdmin(token.email) ? 'admin' : 'user'
       }
       return token
     },
     session({ session, token }) {
       if (session.user) {
+        session.user.id = token.id
         session.user.role = token.role
       }
       return session

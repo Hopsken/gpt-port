@@ -11,7 +11,7 @@ type StoredTokens = Record<string, ApiToken>
 
 export class TokenController {
   private get storageKey() {
-    return `user:${this.userId}:tokens`
+    return `user:tokens:${this.userId}`
   }
 
   constructor(public redis: Redis, public userId: string) {
@@ -19,7 +19,7 @@ export class TokenController {
   }
 
   static async getTokenByHash(redis: Redis, hash: string) {
-    const userId = await redis.get<string>(`key:${hash}:user`)
+    const userId = await redis.get<string>(`user:by-token-hash:${hash}`)
     if (!userId) return null
 
     const controller = new TokenController(redis, userId)
@@ -38,7 +38,7 @@ export class TokenController {
   deleteToken(hash: string) {
     return Promise.all([
       this.redis.hdel(this.storageKey, hash),
-      this.redis.del(`key:${hash}:user`),
+      this.redis.del(`user:by-token-hash:${hash}`),
     ])
   }
 
@@ -48,7 +48,7 @@ export class TokenController {
     const data: ApiToken = { token: blurToken(token), label, expire }
 
     await Promise.all([
-      this.redis.set(`key:${hash}:user`, this.userId),
+      this.redis.set(`user:by-token-hash:${hash}`, this.userId),
       this.redis.hset<ApiToken>(this.storageKey, {
         [hash]: data,
       }),
