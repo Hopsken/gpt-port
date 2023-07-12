@@ -12,12 +12,11 @@ const passThroughHeaders = [
 
 export const proxyCompletions = async (
   ctx: Context,
+  body: unknown,
   provider: ModelProvider,
   targetPath: string
 ): Promise<Response> => {
   const req = ctx.req
-  const body = await ctx.req.json()
-
   const upstreamUrl = getUpstreamURL(provider, targetPath)
   const headers = prepareHeaders(provider)
   const response = await fetch(upstreamUrl, {
